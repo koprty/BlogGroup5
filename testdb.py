@@ -1,7 +1,10 @@
 import sqlite3
 import csv
 #from flask import Flask, render_template
-
+'''
+Bugs to keep in mind:
+1) <"> and <'> and <,> will cause problems- the first two in entry to the database, while the last one may cause a misread in the csv file
+'''
 
 conn = sqlite3.connect('blog.db')
 
@@ -10,18 +13,19 @@ csvname = "data.csv"
 c = conn.cursor()
 try:
     c.execute("CREATE TABLE post(name TEXT UNIQUE, content TEXT UNIQUE, date TEXT, author TEXT)")
-    print "Creating new table for db"
+    print "Creating new table called 'post' in blog.db"
 except:
-    print "Adding to current table"
+    print "Adding to table 'post' in blog.db"
 
 BASE = "INSERT INTO post VALUES('%(name)s', '%(content)s', '%(date)s', '%(author)s')"
-try:
-    for l in csv.DictReader(open(csvname)):
+for l in csv.DictReader(open(csvname)):
+    try:
         q = BASE%l
-        print q
         c.execute(q)
-except:
-    pass
+        print q
+
+    except:
+        pass
 conn.commit()
 
 
@@ -35,3 +39,4 @@ select content from post where name == "Welcome";
 
 -> made it so if you python file twice-> there will not be a repeat of the same element
 '''
+
