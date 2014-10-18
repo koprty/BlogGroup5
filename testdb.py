@@ -26,9 +26,12 @@ conn.commit()
 
 
 '''
-1. run sqlite3 blog.db
+1. python this file
+2. run sqlite3 blog.db
 example sqlite commands:
 select * from post;
 select content from post where name == "Welcome";
 
 
+-> made it so if you python file twice-> there will not be a repeat of the same element
+'''
