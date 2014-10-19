@@ -1,6 +1,7 @@
 import sqlite3
 import csv
 #from flask import Flask, render_template
+
 '''
 Bugs to keep in mind:
 1) <"> and <'> and <,> will cause problems- the first two in entry to the database, while the last one may cause a misread in the csv file
@@ -36,7 +37,7 @@ example sqlite commands:
 select * from post;
 select content from post where name == "Welcome";
 
-
--> made it so if you python file twice-> there will not be a repeat of the same element
+If you python twice-> there will not be a repeat of the elements
+this seems to be also true when there is a repeat of the same element in the table
 '''
 
