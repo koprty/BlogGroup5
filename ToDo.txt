@@ -1,0 +1,4 @@
+Blog page with titles as links, include author's name
+Blog post page for each post
+-be able to post comments with a username
+Format all of the websites
