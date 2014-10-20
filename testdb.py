@@ -13,7 +13,7 @@ csvname = "data.csv"
 
 c = conn.cursor()
 try:
-    c.execute("CREATE TABLE post(name TEXT UNIQUE, content TEXT UNIQUE, date TEXT, author TEXT)")
+    c.execute("CREATE TABLE post(name TEXT UNIQUE, content TEXT, date TEXT, author TEXT)")
     print "Creating new table called 'post' in blog.db"
 except:
     print "Adding to table 'post' in blog.db"
