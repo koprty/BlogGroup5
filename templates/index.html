@@ -2,19 +2,20 @@
 <head>
     <title>A Blog</title>
     <link rel="stylesheet" href="../static/pure-min.css">
+    <link rel="stylesheet" href="../static/basic.css">
 </head>
 <body>
-  <div class="center">
-    <p>Welcome to our blog!</p>
-    {% for post in posts %}
-    <div class="post">
-        <p><b>{{ post.title }}</b> by {{ post.author }}</p>
-        <p>Posted on {{ post.date }}</p>
-        <div class="content">
-            {{ post.content }}
-        </div>
+  <h1>Welcome to our blog!</h1>
+  {% for post in posts %}
+  <div class="wrap">
+    <div class="post primary">
+      <p><b>{{ post.title }}</b> by {{ post.author }}</p>
+      <p>Posted on {{ post.date }}</p>
+      <div class="post-content">
+        {{ post.content }}
+      </div>
     </div>
-    {% endfor %}
   </div>
+  {% endfor %}
 
 </body>
