@@ -13,8 +13,6 @@ def index():
         pass
 @app.route("/title")
 def title():
-<<<<<<< HEAD
-=======
     pass
 
 
