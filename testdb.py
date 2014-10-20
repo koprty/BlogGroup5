@@ -8,7 +8,6 @@ Bugs to keep in mind:
 '''
 
 conn = sqlite3.connect('blog.db')
-
 csvname = "data.csv"
 
 c = conn.cursor()
@@ -28,6 +27,12 @@ for l in csv.DictReader(open(csvname)):
     except:
         pass
 conn.commit()
+
+
+def addBlog(s):
+    f.open(csvname,'w+')
+    f.write(s)
+    f.close
 
 
 '''
