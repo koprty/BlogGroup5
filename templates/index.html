@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <head>
     <title>A Blog</title>
+    <link rel="stylesheet" href="../static/pure-min.css">
 </head>
 <body>
+    <p>Welcome to our blog!</p>
     (% for post in posts %}
     <div class="post">
         <p><b>{{ post.title }}</b> by {{ post.author }}</p>
