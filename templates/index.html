@@ -9,11 +9,8 @@
   {% for post in posts %}
   <div class="wrap">
     <div class="post primary">
-      <p><b>{{ post.title }}</b> by {{ post.author }}</p>
-      <p>Posted on {{ post.date }}</p>
-      <div class="post-content">
-        {{ post.content }}
-      </div>
+      <p class="post-title"><a href="#">{{ post.title }}</a></p>
+      <p class="post-info">Posted by {{ post.author }} on {{ post.date }}</p>
     </div>
   </div>
   {% endfor %}
