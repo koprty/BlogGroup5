@@ -13,9 +13,8 @@ def index():
         pass
 
 @app.route("/post/<title>")
-def post(title=None):
-    return render_template("post.html",title=title)
-
+def post(title=None,post=None):
+    return render_template("post.html",title=title,post=post,comments = getComments())
 
 
 def initialize():
@@ -58,3 +57,4 @@ def getComments():
 if __name__=="__main__":
     app.debug=True
     app.run(port=5000)
+
