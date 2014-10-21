@@ -66,8 +66,15 @@ def addBlog(s):
 def bloggit():
     button = request.form["makePost"]
     if button == "submit":
-        
+        #add to database
         return render_template("index.html");
+
+
+def addDatabase(dbname):
+    conn = sqlite3.connect(dbname)
+    c = conn.cursor()
+
+
     
 '''
 1. python this file
