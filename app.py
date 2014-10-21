@@ -21,11 +21,13 @@ def db():
     conn = sqlite3.connect('blog.db')
     
     csvname = "data.csv"
+    comcsvname = "comments.csv"
     
     c = conn.cursor()
     try:
         c.execute("CREATE TABLE post(title TEXT UNIQUE, content TEXT, date TEXT, author TEXT)")
-        print "Creating new table called 'post' in blog.db"
+        c.execute("CREATE TABLE comments(content TEXT, date TEXT, author TEXT)")
+        print "Creating new tables called 'post' and 'comments' in blog.db"
     except:
         print "Adding to table 'post' in blog.db"
 
@@ -34,8 +36,15 @@ def db():
         try:
             q = BASE%l
             c.execute(q)
-            print q
-
+        except:
+            pass
+    conn.commit()
+    
+    BASE = "INSERT INTO comments VALUES('%(content)s', '%(date)s', '%(author)s')"
+    for l in csv.DictReader(open(comcsvname)):
+        try:
+            q = BASE%l
+            c.execute(q)
         except:
             pass
     conn.commit()
