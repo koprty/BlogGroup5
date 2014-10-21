@@ -2,6 +2,25 @@ h1{
     text-align:center;
 }
 
+a{
+    color: #27425E;
+    text-decoration:none;
+}
+a:hover{
+    color: #000000;
+    text-decoration:underline;
+}
+
+.post-title{
+    font-weight: bold;
+    font-size: 1.5em;
+    margin-bottom: 0.5em;
+}
+.post-info{
+    margin-top: 0.5em;
+    color:#9D9D9D;
+}
+
 .wrap{
     max-width: 1200px;
     margin:0 auto;
