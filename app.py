@@ -11,9 +11,9 @@ def index():
         return render_template("index.html",posts=db())
     else:
         pass
-@app.route("/title")
-def title():
-    pass
+@app.route("/post/<title>")
+def post(title=None):
+    return render_template("post.html",title=title)
 
 
 
