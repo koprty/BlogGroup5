@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, g
+from flask import Flask, render_template, request, g, redirect, url_for
 from time import localtime, strftime
 import sqlite3
 import csv
@@ -38,16 +38,15 @@ def index():
 
 @app.route("/post/<id>/<title>",methods=['POST','GET'])
 def post(title=None,id=None):
+    curr_post = getPost(id)
+    curr_comments = getComments(id)
     if request.method == 'GET':
-        curr_post = getPost(id)
-        curr_comments = getComments(id)
-        print curr_comments
+        #print curr_comments
         return render_template("post.html",post=curr_post,comments=curr_comments)
     else:
-        curr_post = getPost(id)
-        curr_comments = getComments(id)
         addComment()
-        return render_template("post.html",post=curr_post,comments=curr_comments)
+        #return render_template("post.html",post=curr_post,comments=curr_comments)
+        return redirect(url_for("post",title=title,id=id))
 
 @app.route("/newpost", methods=["GET","POST"])
 def newpost():
