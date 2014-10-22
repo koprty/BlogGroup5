@@ -122,7 +122,9 @@ def addComment():
     count = c.fetchone()
     name = request.form['name']
     comment = request.form['comment-text']
-    if (len(name)>0 and len(comment) >0):
+    if (len(comment)>0):
+        if (len(name)<0):
+            name ="Anonymous"
         v = (id,comment,time,name)
         c.execute("INSERT INTO comments VALUES (?,?,?,?)",v)
     #print name
