@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, g
+from flask import Flask, render_template, requests, g
 import sqlite3
 import csv
 
@@ -111,10 +111,11 @@ def getComments(id):
 
 @app.route("/newpost", methods=["GET","POST"])
 def newpost():
-    t = request.form.get("Titles");
-    newp = request.form.get("PostInfo");
-    if post.strip() >0:
-        post = post;
+    t = request.form.get("Titles", None)
+    newPost = request.form.get("PostInfo", None)
+    submit = request.form.get("submit", None)
+    if submit == "post":
+        addPost(
         #count method for id;
     
     #c.execute("INSERT INTO post VALUES("+ iidd + str(t) + str(newp.strip())+ );
