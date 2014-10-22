@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="../../static/basic.css">
 </head>
 <body>
+    <div class="wrap">
+    <div class="primary">
     <div class="pure-menu pure-menu-open pure-menu-horizontal">
     <ul>
         <li><a href="/">Home</a></li>
@@ -12,26 +14,25 @@
     </ul>
 </div>
   <h1><a href="/">Database Shenanigans</a></h1>
-  <div class="wrap">
-    <div class="pp-post primary">
+    <div class="pp-post">
       <p class="pp-post-title">{{ post.title }}</p>
       <p class="pp-post-info">Posted by {{ post.author }} on {{ post.date }}</p>
       <p class="pp-post-content">{{ post.content }}</p>
       <hr>
     <p class="comment-header">Add a comment:</p>
-    <form class="pure-form-stacked" method="POST" action="{{url_for('post',title=post.title,id=post.id)}}"> 
+    <form class="pure-form pure-form-stacked" method="POST" action="{{url_for('post',title=post.title,id=post.id)}}"> 
         <input type="text" placeholder="Name" name="name"></input>
-        <textarea name="comment-text" rows="5"></textarea>
+        <textarea name="comment-text" rows="5" placeholder="Write your comment here..."></textarea>
         <button type="submit" class="pure-button pure-button-primary">Submit</button>
     </form>
     <p class="comment-header">Comments:</p>
     </div>
-    {% for comment in comments %}
     <div class="comment-primary">
+    {% for comment in comments %}
       <p class="comment-content">{{ comment.content }}</p>
       <p class="comment-info">Posted by {{ comment.author }} on {{ comment.date }}</p>
-    </div>
     {% endfor %}
+    </div>
   </div>
 </body>
 </html>

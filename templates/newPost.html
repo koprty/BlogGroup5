@@ -6,22 +6,22 @@
 </head>
 
 <body>
-  <div class="pure-menu pure-menu-open pure-menu-horizontal">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li class="pure-menu-selected"><a href="#">Make New Post</a></li>
-    </ul>
-</div>
     <div class="wrap">
     <div class="primary">
-        <form action="/newpost" method="Post" class="pure-form-stacked">
-        <center>
+        <div class="pure-menu pure-menu-open pure-menu-horizontal">
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li class="pure-menu-selected"><a href="#">Make New Post</a></li>
+            </ul>
+        </div>
+    
+        <form action="/newpost" method="POST" class="pure-form pure-form-stacked">
             <h1>Enter Your Post Here</h1>
-            <input class="pure-input-1-3" type="text" name="author" placeholder=" Author"></input>
-            <input class="pure-input-2-3" type="text" name="Titles" placeholder=" Title"></input>
-            <textarea name="PostInfo" rows="7"></textarea>
-            <button type="submit" name ="submit" value="post">POST</button>
-        </center>
+                <input class="pure-input-1-3" type="text" name="author" placeholder="Author"></input>
+                <br>
+                <input class="pure-input-1" type="text" name="Titles" placeholder="Title"></input>
+                <textarea name="PostInfo" rows="7"></textarea>
+                <button type="submit" name="submit" class="pure-button pure-button-primary" value="post">Post</button>
         </form>
     </div>
     </div>

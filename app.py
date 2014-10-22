@@ -75,6 +75,7 @@ def newpost():
             errormsg ="Make sure your post and title are not empty"
             return render_template("newPost.html", errormsg= errormsg)
     else:
+        print "BAAAAAK"
         return render_template("newPost.html")
 
 
