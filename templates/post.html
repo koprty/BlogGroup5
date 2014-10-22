@@ -1,10 +1,17 @@
 <html>
 <head>
-
+  <title>A Blog</title>
+    <link rel="stylesheet" href="../static/pure-min.css">
+    <link rel="stylesheet" href="../static/basic.css">
 </head>
 <body>
   <h1>Testing</h1>
-  <p>{{post.title}}</p>
-  <p>{{post.content}}</p>
+  <div class="wrap">
+    <div class="post primary">
+      <p class="post-title">{{ post.title }}</p>
+      <p class="post-info">Posted by {{ post.author }} on {{ post.date }}</p>
+      <p class="post-content">{{ post.content }}</p>
+    </div>
+  </div>
 </body>
 </html>
