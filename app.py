@@ -18,11 +18,13 @@ def index():
 
 @app.route("/post/<id>")
 def post(id=None):
-    thispost={}
+    curr_post={}
     for x in getPosts():
         if x['id'] == id:
-            thispost=x
-    return render_template("post.html",post=thispost,comments=getComments())
+            curr_post=x
+    curr_comments = [y for y in getComments() if y['id']==id]
+    print curr_comments
+    return render_template("post.html",post=curr_post,comments=curr_comments)
 
 def initialize():
     try:
@@ -30,7 +32,7 @@ def initialize():
         c.execute("CREATE TABLE comments(id INTEGER UNIQUE, content TEXT, date TEXT, author TEXT)")
         print "Creating new tables called 'post' and 'comments' in blog.db"
     except:
-        print "Adding to table 'post' in blog.db"
+        print "Adding to tables 'post' and 'comments' in blog.db"
     BASE = "INSERT INTO post VALUES('%(id)s','%(title)s', '%(content)s', '%(date)s', '%(author)s')"
     for l in csv.DictReader(open(csvname)):
         try:
@@ -54,7 +56,7 @@ def getPosts():
     return csv.DictReader(open(csvname))
 
 def getComments():
-    return csv.DictReader(open(csvname))
+    return csv.DictReader(open(comcsvname))
 
 if __name__=="__main__":
     app.debug=True
