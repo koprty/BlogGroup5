@@ -16,8 +16,9 @@ def index():
     else:
         pass
 
-@app.route("/post/<title>/<id>")
+@app.route("/post/<id>/<title>")
 def post(title = None,id=None):
+    title.replace(" ","-");
     curr_post={}
     for x in getPosts():
         if x['id'] == id:
