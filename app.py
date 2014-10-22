@@ -50,7 +50,44 @@ def post(title=None,id=None):
 
 @app.route("/newpost", methods=["GET","POST"])
 def newpost():
-    return render_template("newPost.html");
+    if request.method=='POST':
+        t = request.form.get("Titles", None)
+        newp = request.form.get("PostInfo", None)
+        user = request.form.get("author",None);
+        submit = request.form.get("submit", None)
+        c = get_db().cursor()
+        try:
+            if (len(t) >0 and len(newp) >0 and submit =="post"):
+                if (len(user)<=0):
+                    user = "Anonymous"        
+                
+            #####START OF DATABASE STUFF#######
+                todayd = strftime("%x")
+                print todayd
+                c.execute("SELECT COUNT(*) FROM posts")
+                iidd = c.fetchone()["COUNT(*)"]+1
+                print iidd
+                #BASE = "INSERT INTO posts VALUES('%(id)s','%(title)s', '%(content)s', '%(date)s', '%(author)s')"
+                #q = "INSERT INTO posts VALUES('"+ str(iidd) +"','"+ str(t) +"','"+ str(newp.strip()) + "','" + str(todayd) + "','"+ str(user) + "')"
+                #print q
+                #c.execute(q)
+                v = (iidd,t,newp,todayd,user)
+                print v
+                c.execute("INSERT INTO posts VALUES(?,?,?,?,?)",v)
+                #print iidd
+                get_db().commit();
+                print "SUCCESSFUL"
+                return redirect(url_for('post',title=t,id=iidd))
+            else:
+                errormsg ="Make sure your post and title are not empty"
+                return render_template("newPost.html", errormsg= errormsg)
+        except:
+            errormsg ="Make sure your post and title are not empty"
+            return render_template("newPost.html", errormsg= errormsg)
+    else:
+        return render_template("newPost.html")
+
+
 
 def initialize():
     print "Initializing"
