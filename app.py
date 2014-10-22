@@ -1,12 +1,36 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, g
 import sqlite3
 import csv
-app = Flask(__name__)
 
-conn = sqlite3.connect('blog.db')
+app = Flask(__name__)
+DATABASE = 'blog.db'
+
+#return dictionary from db
+def dict_factory(cursor, row):
+    d = {}
+    for idx, col in enumerate(cursor.description):
+        d[col[0]] = row[idx]
+    return d
+
+def connect_to_database():
+    return sqlite3.connect(DATABASE)
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = connect_to_database()
+        db.row_factory = dict_factory
+    return db
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
 csvname = "data.csv"
 comcsvname = "comments.csv"
-c = conn.cursor()
+
 
 @app.route("/",methods=["GET","POST"])
 @app.route("/index", methods=["GET","POST"])
@@ -18,12 +42,8 @@ def index():
 
 @app.route("/post/<id>/<title>")
 def post(title=None,id=None):
-    title.replace(" ","-");
-    curr_post={}
-    for x in getPosts():
-        if x['id'] == id:
-            curr_post=x
-    curr_comments = [y for y in getComments() if y['id']==id]
+    curr_post= getPost(id)
+    curr_comments = getComments(id)
     print curr_comments
     return render_template("post.html",post=curr_post,comments=curr_comments)
 
@@ -34,38 +54,65 @@ def newpost():
 
 
 def initialize():
+    print "Initializing"
+    conn = sqlite3.connect('blog.db')
+    conn.row_factory = dict_factory
+    
+    c = conn.cursor()
+
     try:
-        c.execute("CREATE TABLE post(id INTEGER UNIQUE, title TEXT UNIQUE, content TEXT, date TEXT, author TEXT)")
+        c.execute("CREATE TABLE posts(id INTEGER UNIQUE, title TEXT UNIQUE, content TEXT, date TEXT, author TEXT)")
         c.execute("CREATE TABLE comments(id INTEGER, content TEXT, date TEXT, author TEXT)")
-        print "Creating new tables called 'post' and 'comments' in blog.db"
+        print "Creating new tables called 'posts' and 'comments' in blog.db"
     except:
-        print "Adding to tables 'post' and 'comments' in blog.db"
-    BASE = "INSERT INTO post VALUES('%(id)s','%(title)s', '%(content)s', '%(date)s', '%(author)s')"
+        print "Adding to tables 'posts' and 'comments' in blog.db"
+    BASE = "INSERT INTO posts VALUES('%(id)s','%(title)s', '%(content)s', '%(date)s', '%(author)s')"
     for l in csv.DictReader(open(csvname)):
         try:
             q = BASE%l
             c.execute(q)
+            print "Inserted into db"
         except:
             pass
     conn.commit()
     BASE = "INSERT INTO comments VALUES('%(id)s','%(content)s', '%(date)s', '%(author)s')"
-    for l in csv.DictReader(open(comcsvname)):
-        try:
-            q = BASE%l
-            c.execute(q)
-        except:
-            pass
-    conn.commit()
-
-initialize()
+    c.execute("SELECT COUNT(*) FROM comments")
+    count = c.fetchone()
+    if(count["COUNT(*)"] == 0):
+        for l in csv.DictReader(open(comcsvname)):
+            try:
+                q = BASE%l
+                c.execute(q)
+            except:
+                print "Not inserted."
+                pass
+        conn.commit()
 
 def getPosts():
-    return csv.DictReader(open(csvname))
+    c = get_db().cursor()
+    c.execute("SELECT * FROM posts")
+    posts = c.fetchall()
+    return posts
 
-def getComments():
-    return csv.DictReader(open(comcsvname))
+def getPost(id):
+    c = get_db().cursor()
+    i = (id,)
+    c.execute("SELECT * FROM posts where id=?",i)
+    return c.fetchone()
+
+def getComments(id):
+    #return csv.DictReader(open(comcsvname))
+    c = get_db().cursor()
+    i = (id,)
+    c.execute("SELECT * FROM comments WHERE id=?",i)
+    comments = c.fetchall()
+    print comments
+    return comments
 
 if __name__=="__main__":
+    initialize()
+    #conn = sqlite3.connect('blog.db')
+    #getPosts()
     app.debug=True
     app.run(port=5000)
 
