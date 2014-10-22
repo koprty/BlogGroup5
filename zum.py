@@ -109,8 +109,8 @@ def initialize():
                 q = BASE%l
                 print q
                 c.execute(q)
-                print "Inserted into db"
             except:
+                print "post not inserted"
                 pass
 
     conn.commit()
