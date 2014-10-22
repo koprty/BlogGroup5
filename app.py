@@ -1,9 +1,12 @@
-from flask import Flask, render_template, request, g
+from flask import Flask, render_template, request, g, redirect, url_for
+from time import localtime, strftime
 import sqlite3
 import csv
 
 app = Flask(__name__)
 DATABASE = 'blog.db'
+csvname = "data.csv"
+comcsvname = "comments.csv"
 
 #return dictionary from db
 def dict_factory(cursor, row):
@@ -28,30 +31,26 @@ def close_connection(exception):
     if db is not None:
         db.close()
 
-csvname = "data.csv"
-comcsvname = "comments.csv"
-
-
-@app.route("/",methods=["GET","POST"])
-@app.route("/index", methods=["GET","POST"])
+@app.route("/")
+@app.route("/index")
 def index():
-    if request.method == "GET":
-        return render_template("index.html",posts=getPosts())
-    else:
-        pass
+    return render_template("index.html",posts=getPosts())
 
-@app.route("/post/<id>/<title>")
+@app.route("/post/<id>/<title>",methods=['POST','GET'])
 def post(title=None,id=None):
-    curr_post= getPost(id)
+    curr_post = getPost(id)
     curr_comments = getComments(id)
-    print curr_comments
-    return render_template("post.html",post=curr_post,comments=curr_comments)
+    if request.method == 'GET':
+        #print curr_comments
+        return render_template("post.html",post=curr_post,comments=curr_comments)
+    else:
+        addComment()
+        #return render_template("post.html",post=curr_post,comments=curr_comments)
+        return redirect(url_for("post",title=title,id=id))
 
 @app.route("/newpost", methods=["GET","POST"])
 def newpost():
     return render_template("newPost.html");
-
-
 
 def initialize():
     print "Initializing"
@@ -88,6 +87,21 @@ def initialize():
                 pass
         conn.commit()
 
+def addComment():
+    time = strftime("%b %d %Y %I:%M %p",localtime())
+    id = request.path.split("/")[2]
+    c = get_db().cursor()
+    #c.execute("SELECT COUNT(*) FROM comments")
+    count = c.fetchone()
+    name = request.form['name']
+    comment = request.form['comment-text']
+    v = (id,comment,time,name)
+    c.execute("INSERT INTO comments VALUES (?,?,?,?)",v)
+    #print name
+    #print comment
+    get_db().commit()
+    print "Added comment"
+
 def getPosts():
     c = get_db().cursor()
     c.execute("SELECT * FROM posts")
@@ -101,7 +115,6 @@ def getPost(id):
     return c.fetchone()
 
 def getComments(id):
-    #return csv.DictReader(open(comcsvname))
     c = get_db().cursor()
     i = (id,)
     c.execute("SELECT * FROM comments WHERE id=?",i)
