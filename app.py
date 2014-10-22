@@ -27,6 +27,12 @@ def post(title=None,id=None):
     print curr_comments
     return render_template("post.html",post=curr_post,comments=curr_comments)
 
+@app.route("/newpost", methods=["GET","POST"])
+def newpost():
+    return render_template("newPost.html");
+
+
+
 def initialize():
     try:
         c.execute("CREATE TABLE post(id INTEGER UNIQUE, title TEXT UNIQUE, content TEXT, date TEXT, author TEXT)")
