@@ -56,3 +56,6 @@ target/
 # Backup files
 *~
 *.sw*
+
+# Other
+.fuse_hidden*
