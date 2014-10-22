@@ -64,6 +64,7 @@ def newpost():
             c.execute("SELECT COUNT(*) FROM comments")
             iidd = c.fetchone()+1
             c.execute("INSERT INTO post VALUES("+ iidd + str(t) + str(newp.strip())+todayd + user );
+            conn.commit();
             print "SUCCESSFUL"
             return post(iidd)
         else:
