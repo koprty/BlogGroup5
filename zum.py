@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, g
+from flask import Flask, render_template, request, g,redirect
 import sqlite3
 import csv
 import time
@@ -65,7 +65,7 @@ def newpost():
         #####START OF DATABASE STUFF#######
             todayd = time.strftime("%x")
             print todayd
-            c.execute("SELECT COUNT(*) FROM comments")
+            c.execute("SELECT COUNT(*) FROM posts")
             iidd = c.fetchone()["COUNT(*)"]+1
             print iidd
             BASE = "INSERT INTO posts VALUES('%(id)s','%(title)s', '%(content)s', '%(date)s', '%(author)s')"
@@ -76,7 +76,7 @@ def newpost():
             print iidd
             conn.commit();
             print "SUCCESSFUL"
-            return post(iidd)
+            return post(t,iidd)
         else:
             errormsg ="Make sure your post and title are not empty"
             return render_template("newPost.html", errormsg= errormsg)
@@ -128,6 +128,9 @@ def initialize():
                 print "Not inserted."
                 pass
         conn.commit()
+    c.execute("SELECT COUNT(*) FROM comments")
+    iidd = c.fetchone()["COUNT(*)"]
+    print iidd
 
 def getPosts():
     c = get_db().cursor()
