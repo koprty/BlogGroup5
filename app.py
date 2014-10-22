@@ -16,8 +16,8 @@ def index():
     else:
         pass
 
-@app.route("/post/<id>")
-def post(id=None):
+@app.route("/post/<title>/<id>")
+def post(title = None,id=None):
     curr_post={}
     for x in getPosts():
         if x['id'] == id:
