@@ -31,3 +31,24 @@ a:hover{
     max-width: 650px;
     margin: 0 auto;
 }
+
+.pp-post-title{
+    font-weight: bold;
+    font-size:2em;
+    margin-bottom: 0.5em;
+}
+.pp-post-info{
+    margin-top: 0.5em;
+    color:#9D9D9D;
+}
+
+
+.pp-post-primary{
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.comment-primary{
+    max-width: 500px;
+    margin: 1 auto;
+}

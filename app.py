@@ -17,7 +17,7 @@ def index():
         pass
 
 @app.route("/post/<title>/<id>")
-def post(title = None,id=None):
+def post(title=None,id=None):
     curr_post={}
     for x in getPosts():
         if x['id'] == id:
@@ -29,7 +29,7 @@ def post(title = None,id=None):
 def initialize():
     try:
         c.execute("CREATE TABLE post(id INTEGER UNIQUE, title TEXT UNIQUE, content TEXT, date TEXT, author TEXT)")
-        c.execute("CREATE TABLE comments(id INTEGER UNIQUE, content TEXT, date TEXT, author TEXT)")
+        c.execute("CREATE TABLE comments(id INTEGER, content TEXT, date TEXT, author TEXT)")
         print "Creating new tables called 'post' and 'comments' in blog.db"
     except:
         print "Adding to tables 'post' and 'comments' in blog.db"
