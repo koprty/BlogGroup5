@@ -49,10 +49,11 @@ def post(title=None,id=None):
 
 @app.route("/newpost", methods=["GET","POST"])
 def newpost():
-    t = request.form.get("Titles");
-    newp = request.form.get("PostInfo");
+    t = request.form.get("Titles", None)
+    newp = request.form.get("PostInfo", None)
     user = request.form.get("author");
-    submit = request.form.get("submit");
+    submit = request.form.get("submit", None)
+        
     try:
         if (len(t) >0 and len(newp) >0 and submit =="post"):
             if (len(user)<=0):
