@@ -51,9 +51,12 @@ def post(title=None,id=None):
 def newpost():
     t = request.form.get("Titles", None)
     newp = request.form.get("PostInfo", None)
-    user = request.form.get("author");
+    user = request.form.get("author",None);
     submit = request.form.get("submit", None)
-        
+    conn = sqlite3.connect('blog.db')
+    conn.row_factory = dict_factory
+    
+    c = conn.cursor()
     try:
         if (len(t) >0 and len(newp) >0 and submit =="post"):
             if (len(user)<=0):
@@ -61,9 +64,16 @@ def newpost():
             
         #####START OF DATABASE STUFF#######
             todayd = time.strftime("%x")
+            print todayd
             c.execute("SELECT COUNT(*) FROM comments")
-            iidd = c.fetchone()+1
-            c.execute("INSERT INTO post VALUES("+ iidd + str(t) + str(newp.strip())+todayd + user );
+            iidd = c.fetchone()["COUNT(*)"]+1
+            print iidd
+            BASE = "INSERT INTO posts VALUES('%(id)s','%(title)s', '%(content)s', '%(date)s', '%(author)s')"
+            q = "INSERT INTO posts VALUES('"+ str(iidd) +"','"+ str(t) +"','"+ str(newp.strip()) + "','" + str(todayd) + "','"+ str(user) + "')"
+            print q
+            c.execute(q)
+            
+            print iidd
             conn.commit();
             print "SUCCESSFUL"
             return post(iidd)
@@ -90,15 +100,22 @@ def initialize():
         print "Creating new tables called 'posts' and 'comments' in blog.db"
     except:
         print "Adding to tables 'posts' and 'comments' in blog.db"
-    BASE = "INSERT INTO posts VALUES('%(id)s','%(title)s', '%(content)s', '%(date)s', '%(author)s')"
-    for l in csv.DictReader(open(csvname)):
-        try:
-            q = BASE%l
-            c.execute(q)
-            print "Inserted into db"
-        except:
-            pass
+    c.execute("SELECT COUNT(*) FROM posts")
+    countp = c.fetchone()
+    if (countp["COUNT(*)"] ==0):            
+        BASE = "INSERT INTO posts VALUES('%(id)s','%(title)s', '%(content)s', '%(date)s', '%(author)s')"
+        for l in csv.DictReader(open(csvname)):
+            try:
+                q = BASE%l
+                print q
+                c.execute(q)
+                print "Inserted into db"
+            except:
+                pass
+
     conn.commit()
+
+
     BASE = "INSERT INTO comments VALUES('%(id)s','%(content)s', '%(date)s', '%(author)s')"
     c.execute("SELECT COUNT(*) FROM comments")
     count = c.fetchone()
