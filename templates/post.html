@@ -6,14 +6,13 @@
 </head>
 <body>
   <div class="wrap">
-    <div class="pp-post-primary">
+    <div class="pp-post primary">
       <p class="pp-post-title">{{ post.title }}</p>
       <p class="pp-post-info">Posted by {{ post.author }} on {{ post.date }}</p>
       <p class="pp-post-content">{{ post.content }}</p>
     </div>
-  </div>
-{% for comment in comments %}
-  <div class="wrap2">
+    <div class="comments"><p>Comments:</p> </div>
+    {% for comment in comments %}
     <div class="comment-primary">
       <p class="comment-content">{{ comment.content }}</p>
       <p class="comment-info">Posted by {{ comment.author }} on {{ comment.date }}</p>
