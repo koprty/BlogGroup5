@@ -65,7 +65,7 @@ def addBlog(s):
 @app.route("tester", methods = ["GET", "POST"])
 def bloggit():
     button = request.form["makePost"]
-    if button = "submit":
+    if button == "submit":
         
         return render_template("index.html");
     
