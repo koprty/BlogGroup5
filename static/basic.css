@@ -2,6 +2,10 @@ h1{
     text-align:center;
 }
 
+textarea{
+    width:100%
+}
+
 a{
     color: #27425E;
     text-decoration:none;

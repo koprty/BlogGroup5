@@ -12,6 +12,13 @@
       <p class="pp-post-info">Posted by {{ post.author }} on {{ post.date }}</p>
       <p class="pp-post-content">{{ post.content }}</p>
       <hr>
+    <p class="comment-header">Add a comment:</p>
+    <form class="pure-form-stacked" method="POST" action="/">
+      
+      <input type="text" placeholder="Name" id="name"></input>
+      <textarea rows="5"></textarea>
+      <button type="submit" class="pure-button pure-button-primary">Submit</button>
+    </form>
     <p class="comment-header">Comments:</p>
     </div>
     {% for comment in comments %}
@@ -19,7 +26,7 @@
       <p class="comment-content">{{ comment.content }}</p>
       <p class="comment-info">Posted by {{ comment.author }} on {{ comment.date }}</p>
     </div>
+    {% endfor %}
   </div>
-  {% endfor %}
 </body>
 </html>
