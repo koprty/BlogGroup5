@@ -1,8 +1,2 @@
-Blog page with titles as links, include author's name
-Blog post page for each post
--display comments
--be able to post comments with a username
-Make Comment database
--be able to add comments to database
 Format all of the websites
-make sure to be able to update blog site with new blog posts
+Formatting newlines/breaks in text
