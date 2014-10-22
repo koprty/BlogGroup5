@@ -13,10 +13,10 @@
       <p class="pp-post-content">{{ post.content }}</p>
       <hr>
     <p class="comment-header">Add a comment:</p>
-    <form class="pure-form-stacked" method="POST" action="/">
+    <form class="pure-form-stacked" method="POST" action="{{url_for('post',title=post.title,id=post.id)}}">
       
-      <input type="text" placeholder="Name" id="name"></input>
-      <textarea rows="5"></textarea>
+      <input type="text" placeholder="Name" name="name"></input>
+      <textarea name="comment-text" rows="5"></textarea>
       <button type="submit" class="pure-button pure-button-primary">Submit</button>
     </form>
     <p class="comment-header">Comments:</p>
