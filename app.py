@@ -60,23 +60,13 @@ def newpost():
             if (len(t) >0 and len(newp) >0 and submit =="post"):
                 if (len(user)<=0):
                     user = "Anonymous"        
-                
             #####START OF DATABASE STUFF#######
                 todayd = strftime("%x")
-                print todayd
                 c.execute("SELECT COUNT(*) FROM posts")
                 iidd = c.fetchone()["COUNT(*)"]+1
-                print iidd
-                #BASE = "INSERT INTO posts VALUES('%(id)s','%(title)s', '%(content)s', '%(date)s', '%(author)s')"
-                #q = "INSERT INTO posts VALUES('"+ str(iidd) +"','"+ str(t) +"','"+ str(newp.strip()) + "','" + str(todayd) + "','"+ str(user) + "')"
-                #print q
-                #c.execute(q)
                 v = (iidd,t,newp,todayd,user)
-                print v
                 c.execute("INSERT INTO posts VALUES(?,?,?,?,?)",v)
-                #print iidd
                 get_db().commit();
-                print "SUCCESSFUL"
                 return redirect(url_for('post',title=t,id=iidd))
             else:
                 errormsg ="Make sure your post and title are not empty"
@@ -132,8 +122,9 @@ def addComment():
     count = c.fetchone()
     name = request.form['name']
     comment = request.form['comment-text']
-    v = (id,comment,time,name)
-    c.execute("INSERT INTO comments VALUES (?,?,?,?)",v)
+    if (len(name)>0 and len(comment) >0):
+        v = (id,comment,time,name)
+        c.execute("INSERT INTO comments VALUES (?,?,?,?)",v)
     #print name
     #print comment
     get_db().commit()
